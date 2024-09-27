@@ -46,7 +46,7 @@ To start working on the project, clone the repository to your local machine and 
     
 
 3. *Install server-side (Node.js) dependencies:*
-    *bash
+    bash
     cd backend
     npm install
     
