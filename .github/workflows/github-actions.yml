@@ -33,7 +33,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '18'  # or your preferred version
+          node-version: '18'  # or '16'
 
       # Step 4: Install front-end dependencies
       - name: Install frontend dependencies
@@ -47,7 +47,11 @@ jobs:
           cd backend
           npm install
 
-      # Step 6: Build front-end for production
+      # Step 6: Set NODE_OPTIONS for OpenSSL legacy provider
+      - name: Set NODE_OPTIONS
+        run: echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
+
+      # Step 7: Build front-end for production
       - name: Build frontend
         run: |
           cd frontend
