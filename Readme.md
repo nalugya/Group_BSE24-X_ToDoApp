@@ -1,6 +1,4 @@
-
-
-#  Project
+# GROUP 10 To-Do App
 
 ## Table of Contents
 - [Project Overview](#project-overview)
@@ -14,103 +12,96 @@
   - [Pull Requests](#pull-requests)
 - [Contributing](#contributing)
 
-
-
-
 ## Project Overview
-This project is developed as part of Group_BSE24. The repository contains the source code for the project and documentation to help team members collaborate effectively.
+This To-Do application is designed to help users manage their tasks effectively. Built using the MERN Stack (MongoDB, Express.js, React.js, Node.js), the app provides the following core features:
 
-
+### Key Features:
+1. *Add Tasks*: Users can create new tasks by providing a title and description, with the option to set a deadline.
+2. *Edit Tasks*: Users can update or modify the details of existing tasks.
+3. *Delete Tasks*: Users can remove tasks that are no longer needed.
+4. *Set Deadlines*: Users can set deadlines for tasks to manage priorities.
+5. *Task List*: The main interface displays all tasks with details.
+6. *Mark Tasks as Complete*: Users can mark tasks as completed.
 
 ## Getting Started
-To get started with the project, you need to clone the repository and set up the project on your local machine.
-
+To start working on the project, clone the repository to your local machine and set it up by following the instructions below.
 
 ## Prerequisites
-Make sure you have the following installed on your system:
-- Git
-- Project-specific dependencies (e.g., Python, Node.js, etc.)
-- Any other requirements outlined in the project's `requirements.txt` or `package.json` files.
-
-
+- *Git*
+- *Node.js* (version >= 14.x)
+- *MongoDB* (local database or remote)
+- *npm* or *yarn*
 
 ## Installation
+1. *Clone the repository:*
 
-1. **Clone the repository:**
+    bash
+    git clone https://github.com/your-username/Group_BSE24-ToDoApp.git
+    
 
-   ```bash
-   git clone https://github.com/your-username/Group_BSE24-X.git
-   ```
+2. *Navigate to the project directory:*
 
-2. **Navigate to the project directory:**
+    bash
+    cd C:\ Group_BSE24-ToDoApp
+    
 
-   ```bash
-   cd Group_BSE24-X
-   ```
+3. *Install server-side (Node.js) dependencies:*
+    bash
+    cd backend
+    npm install
+    
 
-3. **Install dependencies** (if applicable):
+4. *Install client-side (React.js) dependencies:*
 
-   - For Python projects:
-     ```bash
-     pip install -r requirements.txt
-     ```
+    bash
+    cd ../frontend
+    npm install
+    
 
-   - For Node.js projects:
-     ```bash
-     npm install
-     ```
-
-4. **Set up environment variables** (if applicable):
-   Create a `.env` file following the example provided in `.env.example`.
-
-
+5. *Set up environment variables:*
+   In the backend folder, create a .env file following the structure of .env.example.
 
 ## Running the Project
+- *Start the backend (Node.js/Express) server:*
+    bash
+    cd backend
+    npm start
+    
 
-- **For Python projects:**
-  
-  ```bash
-  python manage.py runserver
-  ```
+- *Start the frontend (React.js) development server:*
+    bash
+    cd ../frontend
+    npm start
+    
 
-- **For Node.js projects:**
-  
-  ```bash
-  npm start
-  ```
-
+The app will be accessible at http://localhost:3000 (client) and http://localhost:5000 (server).
 
 ## Collaboration Guidelines
 
 ### Branching Strategy
-- The `main` branch is protected and should always have the latest stable version of the project.
-- Feature development must happen on individual feature branches:
-  ```bash
-  git checkout -b feature/your-feature-name
-  ```
-
-- Once the feature is complete, push your branch and open a pull request.
+- The main branch is protected and should always contain the latest stable version.
+- Feature development happens on individual branches:
+    bash
+    git checkout -b feature/your-feature-name
+    
+- Once a feature is complete, push your branch and open a pull request for review.
 
 ### Commit Messages
-- Use meaningful commit messages that describe the work done. Follow this structure:
-  ```
-  feat: [description] – for adding a new feature
-  fix: [description] – for fixing a bug
-  refactor: [description] – for code restructuring
-  ```
+- Use descriptive and meaningful commit messages:
+    
+    feat: [short description] – for new features
+    fix: [short description] – for bug fixes
+    refactor: [short description] – for restructuring code
+    
 
 ### Pull Requests
-- Make sure all pull requests are properly reviewed by at least one other team member before merging.
-- Follow the PR template, if provided, and make sure to link any relevant issues.
-- Once approved, squash and merge your changes into the `main` branch.
-
-
+- Ensure your pull request is reviewed by at least one team member.
+- Use the provided PR template and link related issues.
+- Once approved, squash and merge changes into main.
 
 ## Contributing
-We encourage collaboration and contributions from all team members. Please ensure that any contributions align with the project's overall goals and standards.
-
-- Before starting work on any major changes, please discuss them with the team.
-- Make sure your code follows the project’s style guidelines and is well-documented.
-
+Contributions from all team members are welcome. Ensure your changes align with project goals.
+- Discuss major changes with the team before starting.
+- Follow the project's style guidelines and document your code
 
 
