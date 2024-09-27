@@ -47,12 +47,10 @@ jobs:
           cd backend
           npm install
 
-      # Step 6: Set NODE_OPTIONS for OpenSSL legacy provider
-      - name: Set NODE_OPTIONS
-        run: echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
-
-      # Step 7: Build front-end for production
+      # Step 6: Build front-end for production with NODE_OPTIONS
       - name: Build frontend
+        env:
+          NODE_OPTIONS: '--openssl-legacy-provider'  
         run: |
           cd frontend
           npm run build
