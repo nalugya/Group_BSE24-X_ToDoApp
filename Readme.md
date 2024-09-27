@@ -1,4 +1,4 @@
-# To-Do App
+# GROUP 10 To-Do App
 
 ## Table of Contents
 - [Project Overview](#project-overview)
@@ -34,11 +34,13 @@ To start working on the project, clone the repository to your local machine and 
 
 ## Installation
 1. *Clone the repository:*
+
     bash
     git clone https://github.com/your-username/Group_BSE24-ToDoApp.git
     
 
 2. *Navigate to the project directory:*
+
     bash
     cd C:\ Group_BSE24-ToDoApp
     
@@ -50,6 +52,7 @@ To start working on the project, clone the repository to your local machine and 
     
 
 4. *Install client-side (React.js) dependencies:*
+
     bash
     cd ../frontend
     npm install
