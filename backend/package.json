@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "prettier": "prettier --write",
     "start": "node server.js",
     "test": "mocha --exit"
   },
@@ -10,6 +11,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "backend": "file:",
     "cors": "^2.8.5",
     "express": "^4.21.0",
     "mongoose": "^8.6.3"

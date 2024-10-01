@@ -75,3 +75,15 @@ jobs:
         run: |
           cd frontend
           npm run build
+
+      # Step 10: run prettier
+      - name: Run Prettier
+        run: |
+          cd frontend
+          npm run prettier --check "src/components/**/*.js"
+          
+      # Step 11: run prettier
+      - name: Run Prettier
+        run: |
+          cd backend
+          npm run prettier --check   "models/**/*.js"
