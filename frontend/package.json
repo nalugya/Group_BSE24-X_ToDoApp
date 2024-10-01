@@ -13,7 +13,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "prettier": "prettier --write",
+    "prettier": "prettier --write 'src/components/**/*.js'",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
