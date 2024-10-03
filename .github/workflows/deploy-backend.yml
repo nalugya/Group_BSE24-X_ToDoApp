@@ -1,1 +1,65 @@
-ECHO is on.
+name: CD Pipeline for Backend
+
+on:
+  push:
+    branches:
+      - aheebwomugish_backend  # Trigger on push to this branch
+  pull_request:
+    branches:
+      - aheebwomugish_backend  # Trigger on pull request to this branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'  # Specify your Node.js version
+
+      - name: Install Dependencies
+        run: npm install
+        working-directory: ./backend  # Adjust path if necessary
+
+      - name: Run Tests
+        run: npm test
+        working-directory: ./backend  # Adjust path if necessary
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    if: success()  # Only run if the build job was successful
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'  # Specify your Node.js version
+
+      - name: Build the Application
+        run: npm run build  # Ensure this script exists in your package.json
+        working-directory: ./backend  # Adjust path if necessary
+
+      - name: Bundle the Application
+        run: npm run bundle  # Ensure this script exists in your package.json
+        working-directory: ./backend  # Adjust path if necessary
+
+      - name: Deploy to Staging
+        run: |
+          echo "Deploying to staging environment..."
+          # Replace this with your deployment command
+          ssh user@staging-server "cd /path/to/staging && npm start"
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}  # Use GitHub Secrets to store your SSH key
+          
+      - name: Verify Backend Deployment
+        run: |
+          curl -f http://staging-server/api/health || exit 1  # Replace with your actual health check endpoint
+
