@@ -17,6 +17,7 @@
     "mongoose": "^8.6.3"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "chai": "^5.1.1",
     "chai-http": "^5.0.0",
     "eslint": "^9.11.1",
@@ -27,5 +28,15 @@
     "mocha": "^10.7.3",
     "prettier": "^3.3.3",
     "supertest": "^7.0.0"
+=======
+    "prettier": "^3.3.3"
+  },
+  {
+  "scripts": {
+    "prettier:check": "prettier --check .",
+    "prettier:write": "prettier --write ."
+>>>>>>> 1a22d174cb64b2551f3e6040c9994ec6ce9c18e7
   }
+}
+
 }
