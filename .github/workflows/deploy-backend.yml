@@ -51,7 +51,7 @@ jobs:
           node-version: '18'  
 
       - name: Build the Application
-        run: npm run build  # Ensure this script exists in your package.json
+        run: npm run build  
         working-directory: ./backend  # Adjust path if necessary
 
       - name: Bundle the Application
