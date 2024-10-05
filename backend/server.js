@@ -9,6 +9,8 @@ var app = express();
 app.use(cors({
     origin: 'https://group-bse24-x-todoapp-2-frontend.onrender.com',  // Your frontend URL
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,  // Allow credentials (optional, remove if not needed)
 }));
 
 app.use(express.json());
