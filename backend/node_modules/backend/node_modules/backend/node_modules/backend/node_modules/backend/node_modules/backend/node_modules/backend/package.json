@@ -8,7 +8,9 @@
     "test": "mocha --exit",
     "prettier:check": "prettier --check .",
     "prettier:write": "prettier --write .",
-    "build": "babel backend -d backend/dist"
+    
+    "build": "npx babel . -d dist"
+
   },
   "author": "",
   "license": "ISC",
