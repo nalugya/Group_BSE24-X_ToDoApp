@@ -4,7 +4,13 @@ const cors = require('cors');
 const Todo = require('./models/Todo');
 
 var app = express();
-app.use(cors());
+
+// CORS configuration to allow requests from your frontend URL
+app.use(cors({
+    origin: 'https://group-bse24-x-todoapp-2-frontend.onrender.com',  // Your frontend URL
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}));
+
 app.use(express.json());
 
 // Connect to your MongoDB database (replace with your database URL)
