@@ -16,10 +16,7 @@ app.use(cors({
 app.use(express.json());
 
 // Connect to your MongoDB database with SSL enabled
-mongoose.connect("mongodb+srv://admin:0754092850@todoapp.aqby3.mongodb.net/TODOAPP?retryWrites=true&w=majority&ssl=true", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+mongoose.connect("mongodb+srv://admin:0754092850@todoapp.aqby3.mongodb.net/TODOAPP?retryWrites=true&w=majority&ssl=true");
 
 // Check for database connection errors
 mongoose.connection.on("error", (error) => {
