@@ -54,8 +54,8 @@ jobs:
 
       - name: Deploy to Render
         env:
-          RENDER_API_KEY: "rnd_M5xEG4OQUVWHZYP2Fmsh2vQcd9L9"
-          RENDER_SERVICE_ID: "srv-cs1aatrtq21c73eni3gg"
+          RENDER_API_KEY: "rnd_Uz5AGTc1J8vndxmRmgRQyNylpgqH"
+          RENDER_SERVICE_ID: "$srv-cs0fvt23esus7391n6qg"
         run: |
           curl -X POST "https://api.render.com/v1/services/${{ env.RENDER_SERVICE_ID }}/deploys" \
             -H "Authorization: Bearer $RENDER_API_KEY" \
