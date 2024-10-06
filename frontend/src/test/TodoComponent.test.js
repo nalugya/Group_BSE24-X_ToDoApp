@@ -5,22 +5,20 @@ import Todo from '../components/Todo';
 
 jest.mock('axios');
 
+const baseUrl = process.env.REACT_APP_BACKEND_URL;
+
 describe('Todo Component', () => {
   const mockTodoList = [
     { _id: '1', task: 'Task 1', status: 'Pending', deadline: '2024-09-26T10:00:00' },
     { _id: '2', task: 'Task 2', status: 'Completed', deadline: '2024-09-27T14:00:00' },
   ];
 
-  const baseUrl = process.env.REACT_APP_API_URL || 'http://localhost:3001'; // Dynamic base URL
-
-  // Suppress console errors
-  const originalError = console.error;
   beforeAll(() => {
     console.error = jest.fn();
   });
 
   afterAll(() => {
-    console.error = originalError;
+    console.error = console.originalError;
   });
 
   beforeEach(() => {
@@ -28,8 +26,8 @@ describe('Todo Component', () => {
     axios.post.mockResolvedValue({});
     axios.delete.mockResolvedValue({});
   });
-  
-  test('renders without crashing', () => {
+
+  test("renders without crashing", () => {
     render(<Todo />);
   });
 
