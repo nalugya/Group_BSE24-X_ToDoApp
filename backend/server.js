@@ -1,7 +1,5 @@
-//server.js
-
-const express = require('express')
-const mongoose = require('mongoose')
+const express = require('express');
+const mongoose = require('mongoose');
 const cors = require('cors');
 const Todo = require('./models/Todo');
 
@@ -21,7 +19,7 @@ mongoose.connection.on("error", (error) => {
 app.get("/getTodoList", (req, res) => {
     Todo.find({})
         .then((todoList) => res.json(todoList))
-        .catch((err) => res.json(err))
+        .catch((err) => res.json(err));
 });
 
 // Add new task to the database
@@ -56,6 +54,8 @@ app.delete("/deleteTodoList/:id", (req, res) => {
         .catch((err) => res.json(err));
 });
 
-app.listen(3001, () => {
-    console.log('Server running on 3001');
+// Set up the server to listen on the specified port
+const PORT = process.env.PORT || 3001;  // Use PORT from environment variables or default to 3001
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
