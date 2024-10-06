@@ -223,7 +223,7 @@ function Todo() {
             </div>
             <button
               onClick={addTask}
-              type="submit"
+              type="button"
               className="btn btn-success btn-sm"
             >
               Add Task
