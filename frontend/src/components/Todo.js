@@ -15,7 +15,7 @@ function Todo() {
   // Fetch tasks from database
   useEffect(() => {
     axios
-      .get("http://localhost:3001/getTodoList")
+      .get("https://group-bse24-x-todoapp-2-backend.onrender.com/getTodoList")
       .then((result) => {
         setTodoList(result.data);
       })
@@ -47,7 +47,7 @@ function Todo() {
     }
 
     axios
-      .post("http://localhost:3001/addTodoList", {
+      .post("https://group-bse24-x-todoapp-2-backend.onrender.com/addTodoList", {
         task: newTask,
         status: newStatus,
         deadline: newDeadline,
@@ -75,7 +75,7 @@ function Todo() {
 
     // Updating edited data to the database through updateById API
     axios
-      .post("http://localhost:3001/updateTodoList/" + id, editedData)
+      .post("https://group-bse24-x-todoapp-2-backend.onrender.com/updateTodoList/" + id, editedData)
       .then((result) => {
         console.log(result);
         setEditableId(null);
@@ -90,7 +90,7 @@ function Todo() {
   // Delete task from database
   const deleteTask = (id) => {
     axios
-      .delete("http://localhost:3001/deleteTodoList/" + id)
+      .delete("https://group-bse24-x-todoapp-2-backend.onrender.com/deleteTodoList/" + id)
       .then((result) => {
         console.log(result);
         window.location.reload();
@@ -223,7 +223,7 @@ function Todo() {
             </div>
             <button
               onClick={addTask}
-              type="submit"
+              type="button"
               className="btn btn-success btn-sm"
             >
               Add Task

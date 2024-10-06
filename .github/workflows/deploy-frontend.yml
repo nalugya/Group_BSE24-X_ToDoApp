@@ -1,0 +1,65 @@
+name: CD Pipeline for Frontend
+
+on:
+  push:
+    branches:
+      - backend
+  pull_request:
+    branches:
+      - backend
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout Code
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      # 2. Set Up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'  # Specify the Node.js version
+
+      # 3. Install Dependencies
+      - name: Install Dependencies
+        run: npm install
+        working-directory: ./frontend  # Adjust path if necessary
+
+      # 4. Run Tests
+      - name: Run Tests
+        run: npm test
+        working-directory: ./frontend
+
+      # 5. Build Application
+      - name: Build Application
+        run: npm run build
+        working-directory: ./frontend
+
+      # 6. Deploy to Render
+      - name: Deploy to Render
+        env:
+          RENDER_API_KEY: "rnd_Uz5AGTc1J8vndxmRmgRQyNylpgqH"
+          RENDER_SERVICE_ID: "$srv-cs0fvt23esus7391n6qg"
+        run: |
+          curl -X POST "https://api.render.com/v1/services/${{ env.RENDER_SERVICE_ID }}/deploys" \
+            -H "Authorization: Bearer $RENDER_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{}'
+          echo "Deployment triggered on Render."
+
+      # 7. Verify Deployment
+      - name: Verify Deployment
+        run: |
+          # Wait for a few seconds to allow Render to process the deployment
+          sleep 60
+          # Replace with your actual health check endpoint
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://group-bse24-x-todoapp-2-frontend.onrender.com)
+          if [ "$RESPONSE" -ne 200 ]; then
+            echo "Health check failed with status code $RESPONSE"
+            exit 1
+          else
+            echo "Frontend deployed and health check passed."
+          fi
