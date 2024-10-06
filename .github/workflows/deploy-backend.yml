@@ -69,7 +69,7 @@ jobs:
       - name: Verify Backend Deployment
         run: |
           # Wait for a few seconds to allow Render to process the deployment
-          sleep 30
+          sleep 60
           # Replace with your actual health check endpoint
           RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://group-bse24-x-todoapp-2-backend.onrender.com/getTodoList/health)
           if [ "$RESPONSE" -ne 200 ]; then
