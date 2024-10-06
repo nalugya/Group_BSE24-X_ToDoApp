@@ -3,10 +3,10 @@ name: CD Pipeline for Frontend
 on:
   push:
     branches:
-      - backend
+      - deploy_frontend_mellisa
   pull_request:
     branches:
-      - backend
+      - deploy_frontend_mellisa
 
 jobs:
   build-and-deploy:
