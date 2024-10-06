@@ -3,10 +3,10 @@ name: CD Pipeline for Backend
 on:
   push:
     branches:
-      - aheebwomugish_backend  
+      - backend  
   pull_request:
     branches:
-      - aheebwomugish_backend  
+      - backend  
 
 jobs:
   build:
@@ -29,9 +29,6 @@ jobs:
         run: chmod +x ./node_modules/.bin/mocha
         working-directory: ./backend  
 
-
-        
-
       - name: Run Tests
         run: npm test
         working-directory: ./backend  
@@ -50,23 +47,39 @@ jobs:
         with:
           node-version: '18'  
 
+      - name: Install Dependencies
+        run: npm install
+        working-directory: ./backend  
+
       - name: Build the Application
         run: npm run build  
-        working-directory: ./backend  # Adjust path if necessary
+        working-directory: ./backend  
 
       - name: Bundle the Application
         run: npm run bundle  # Ensure this script exists in your package.json
-        working-directory: ./backend  # Adjust path if necessary
+        working-directory: ./backend  
 
-      - name: Deploy to Staging
-        run: |
-          echo "Deploying to staging environment..."
-          # Replace this with your deployment command
-          ssh user@staging-server "cd /path/to/staging && npm start"
+      - name: Deploy to Render
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}  # Use GitHub Secrets to store your SSH key
-          
+          RENDER_API_KEY: "rnd_Uz5AGTc1J8vndxmRmgRQyNylpgqH"
+          RENDER_SERVICE_ID: "srv-cs0h29ggph6c73a8a1eg"
+        run: |
+          curl -X POST "https://api.render.com/v1/services/${{ env.RENDER_SERVICE_ID }}/deploys" \
+            -H "Authorization: Bearer $RENDER_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{}'
+          echo "Deployment triggered on Render."
+
+
       - name: Verify Backend Deployment
         run: |
-          curl -f http://staging-server/api/health || exit 1  # Replace with your actual health check endpoint
-
+          # Wait for a few seconds to allow Render to process the deployment
+          sleep 30
+          # Replace with your actual health check endpoint
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://group-bse24-x-todoapp-2-backend.onrender.com/api/health)
+          if [ "$RESPONSE" -ne 200 ]; then
+            echo "Health check failed with status code $RESPONSE"
+            exit 1
+          else
+            echo "Backend deployed and health check passed."
+          fi
