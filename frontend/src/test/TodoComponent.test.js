@@ -11,6 +11,8 @@ describe('Todo Component', () => {
     { _id: '2', task: 'Task 2', status: 'Completed', deadline: '2024-09-27T14:00:00' },
   ];
 
+  const baseUrl = process.env.REACT_APP_API_URL || 'http://localhost:3001'; // Dynamic base URL
+
   // Suppress console errors
   const originalError = console.error;
   beforeAll(() => {
@@ -26,12 +28,10 @@ describe('Todo Component', () => {
     axios.post.mockResolvedValue({});
     axios.delete.mockResolvedValue({});
   });
-     
-
-   test("renders without crashing", () => {
-    render(<Todo />);
-    });
   
+  test('renders without crashing', () => {
+    render(<Todo />);
+  });
 
   test('edits a task', async () => {
     render(<Todo />);
@@ -47,7 +47,7 @@ describe('Todo Component', () => {
     fireEvent.click(saveButton);
 
     await waitFor(() => {
-      expect(axios.post).toHaveBeenCalledWith('http://localhost:3001/updateTodoList/1', expect.any(Object));
+      expect(axios.post).toHaveBeenCalledWith(`${baseUrl}/updateTodoList/1`, expect.any(Object));
     });
   });
 
@@ -59,7 +59,7 @@ describe('Todo Component', () => {
     });
 
     await waitFor(() => {
-      expect(axios.delete).toHaveBeenCalledWith('http://localhost:3001/deleteTodoList/1');
+      expect(axios.delete).toHaveBeenCalledWith(`${baseUrl}/deleteTodoList/1`);
     });
   });
 
