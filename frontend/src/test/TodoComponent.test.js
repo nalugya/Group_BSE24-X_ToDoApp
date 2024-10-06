@@ -5,20 +5,20 @@ import Todo from '../components/Todo';
 
 jest.mock('axios');
 
+const baseUrl = 'https://group-bse24-x-todoapp-2-backend.onrender.com';
+
 describe('Todo Component', () => {
   const mockTodoList = [
     { _id: '1', task: 'Task 1', status: 'Pending', deadline: '2024-09-26T10:00:00' },
     { _id: '2', task: 'Task 2', status: 'Completed', deadline: '2024-09-27T14:00:00' },
   ];
 
-  // Suppress console errors
-  const originalError = console.error;
   beforeAll(() => {
     console.error = jest.fn();
   });
 
   afterAll(() => {
-    console.error = originalError;
+    console.error = console.originalError;
   });
 
   beforeEach(() => {
@@ -26,12 +26,10 @@ describe('Todo Component', () => {
     axios.post.mockResolvedValue({});
     axios.delete.mockResolvedValue({});
   });
-     
 
-   test("renders without crashing", () => {
+  test("renders without crashing", () => {
     render(<Todo />);
-    });
-  
+  });
 
   test('edits a task', async () => {
     render(<Todo />);
@@ -47,7 +45,7 @@ describe('Todo Component', () => {
     fireEvent.click(saveButton);
 
     await waitFor(() => {
-      expect(axios.post).toHaveBeenCalledWith('http://localhost:3001/updateTodoList/1', expect.any(Object));
+      expect(axios.post).toHaveBeenCalledWith(`${baseUrl}/updateTodoList/1`, expect.any(Object));
     });
   });
 
@@ -59,7 +57,7 @@ describe('Todo Component', () => {
     });
 
     await waitFor(() => {
-      expect(axios.delete).toHaveBeenCalledWith('http://localhost:3001/deleteTodoList/1');
+      expect(axios.delete).toHaveBeenCalledWith(`${baseUrl}/deleteTodoList/1`);
     });
   });
 
