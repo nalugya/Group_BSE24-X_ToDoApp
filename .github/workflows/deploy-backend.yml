@@ -51,12 +51,9 @@ jobs:
         run: npm install
         working-directory: ./backend  
 
-      - name: Build the Application
-        run: npm run build  
-        working-directory: ./backend  
-
+  
       - name: Bundle the Application
-        run: npm run bundle  # Ensure this script exists in your package.json
+        run: npm run bundle  
         working-directory: ./backend  
 
       - name: Deploy to Render
