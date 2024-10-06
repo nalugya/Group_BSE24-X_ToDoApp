@@ -52,9 +52,7 @@ jobs:
         working-directory: ./backend  
 
   
-      - name: Bundle the Application
-        run: npm run bundle  
-        working-directory: ./backend  
+
 
       - name: Deploy to Render
         env:
