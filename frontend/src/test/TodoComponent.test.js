@@ -5,7 +5,7 @@ import Todo from '../components/Todo';
 
 jest.mock('axios');
 
-const baseUrl = process.env.REACT_APP_BACKEND_URL;
+const baseUrl = 'https://group-bse24-x-todoapp-2-backend.onrender.com';
 
 describe('Todo Component', () => {
   const mockTodoList = [
