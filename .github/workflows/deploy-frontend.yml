@@ -56,7 +56,7 @@ jobs:
           # Wait for a few seconds to allow Render to process the deployment
           sleep 60
           # Replace with your actual health check endpoint
-          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://your-frontend-staging-url.com/api/health)
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://group-bse24-x-todoapp-2-frontend.onrender.com)
           if [ "$RESPONSE" -ne 200 ]; then
             echo "Health check failed with status code $RESPONSE"
             exit 1
