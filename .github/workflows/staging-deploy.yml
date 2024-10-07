@@ -96,10 +96,6 @@ jobs:
         run: npm test
         working-directory: ./backend
 
-      - name: Build Backend
-        run: npm run build
-        working-directory: ./backend
-
       - name: Deploy Backend to Render Staging
         env:
           RENDER_API_KEY: ${{ secrets.RENDER_API_KEY_STAGING_BACKEND }}
