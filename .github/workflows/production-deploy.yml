@@ -1,5 +1,11 @@
 name: Production Deployment
 
+
+permissions:
+  contents: write  # Allows the workflow to modify the repo contents, including creating tags
+  actions: write 
+
+
 on:
   push:
     branches:
@@ -89,10 +95,7 @@ jobs:
         run: npm test
         working-directory: ./backend
 
-      - name: Build Backend
-        run: npm run build
-        working-directory: ./backend
-
+      
       - name: Deploy Backend to Render Production
         env:
           RENDER_API_KEY: ${{ secrets.RENDER_API_KEY_PRODUCTION_BACKEND }}
@@ -208,23 +211,4 @@ jobs:
             -d '{}'
           echo "Backend rollback deployment triggered."
 
-  notify-failure:
-    name: Notify Team of Deployment Failure
-    runs-on: ubuntu-latest
-    needs:
-      - build-and-deploy-frontend
-      - build-and-deploy-backend
-      - rollback-frontend
-      - rollback-backend
-    if: failure()
-
-    steps:
-      - name: Send Failure Notification to Slack
-        uses: slackapi/slack-github-action@v1.23.0
-        with:
-          payload: |
-            {
-              "text": ":x: Production deployment failed and rollback was triggered. Please check the CI/CD pipeline for details."
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+ 
