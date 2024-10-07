@@ -1,5 +1,10 @@
 name: Staging Deployment
 
+
+permissions:
+  contents: write  # Allows the workflow to modify the repo contents, including creating tags
+  actions: write 
+
 on:
   push:
     branches:
