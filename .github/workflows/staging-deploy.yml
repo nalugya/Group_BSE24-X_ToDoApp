@@ -8,10 +8,10 @@ permissions:
 on:
   push:
     branches:
-      - staging
+      - acan
   pull_request:
     branches:
-      - staging
+      - acan
 
 jobs:
   build-and-deploy-frontend:
