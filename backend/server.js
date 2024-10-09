@@ -4,11 +4,19 @@ const cors = require('cors');
 const Todo = require('./models/Todo');
 
 var app = express();
-app.use(cors());
+
+// CORS configuration to allow requests from your frontend URL
+app.use(cors({
+    origin: 'https://group-bse24-x-todoapp-2-frontend.onrender.com',  // Your frontend URL
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,  // Allow credentials (optional, remove if not needed)
+}));
+
 app.use(express.json());
 
-// Connect to your MongoDB database (replace with your database URL)
-mongoose.connect("mongodb+srv://admin:0754092850@todoapp.aqby3.mongodb.net/");
+// Connect to your MongoDB database with SSL enabled
+mongoose.connect("mongodb+srv://admin:0754092850@todoapp.aqby3.mongodb.net/TODOAPP?retryWrites=true&w=majority&ssl=true");
 
 // Check for database connection errors
 mongoose.connection.on("error", (error) => {
@@ -27,7 +35,7 @@ app.post("/addTodoList", (req, res) => {
     Todo.create({
         task: req.body.task,
         status: req.body.status,
-        deadline: req.body.deadline, 
+        deadline: req.body.deadline,
     })
         .then((todo) => res.json(todo))
         .catch((err) => res.json(err));
@@ -39,7 +47,7 @@ app.post("/updateTodoList/:id", (req, res) => {
     const updateData = {
         task: req.body.task,
         status: req.body.status,
-        deadline: req.body.deadline, 
+        deadline: req.body.deadline,
     };
     Todo.findByIdAndUpdate(id, updateData)
         .then((todo) => res.json(todo))
