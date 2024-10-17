@@ -8,10 +8,10 @@ var app = express();
 
 // CORS configuration to allow requests from your frontend URL
 app.use(cors({
-    origin: 'https://group-bse24-x-todoapp-2-frontend.onrender.com',  // Your frontend URL
+    origin: 'https://group-bse24-x-todoapp-2-frontend.onrender.com',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,  // Allow credentials (optional, remove if not needed)
+    credentials: true,
 }));
 
 app.use(express.json());
@@ -20,12 +20,12 @@ app.use(express.json());
 const collectDefaultMetrics = client.collectDefaultMetrics;
 collectDefaultMetrics({ timeout: 5000 });  // Collect every 5 seconds
 
-// Define custom metrics
+// Define custom backend metrics
 const httpRequestDurationSeconds = new client.Histogram({
     name: 'http_request_duration_seconds',
     help: 'Duration of HTTP requests in seconds',
     labelNames: ['method', 'route', 'status_code'],
-    buckets: [0.1, 0.3, 0.5, 1, 2, 5]  // Buckets for response time from 100ms to 5s
+    buckets: [0.1, 0.3, 0.5, 1, 2, 5]
 });
 
 const httpRequestTotal = new client.Counter({
@@ -34,17 +34,11 @@ const httpRequestTotal = new client.Counter({
     labelNames: ['method', 'route', 'status_code']
 });
 
-const httpRequestErrorsTotal = new client.Counter({
-    name: 'http_request_errors_total',
-    help: 'Total number of HTTP request errors',
-    labelNames: ['method', 'route', 'status_code']
-});
-
-const dbQueryDurationSeconds = new client.Histogram({
-    name: 'db_query_duration_seconds',
-    help: 'Duration of database queries in seconds',
-    labelNames: ['operation'],
-    buckets: [0.01, 0.05, 0.1, 0.5, 1, 2, 5]  // Buckets for query time from 10ms to 5s
+// Define frontend metrics using Prometheus Gauge
+const frontendMetric = new client.Gauge({
+    name: 'frontend_metric',
+    help: 'Frontend performance metric from web-vitals',
+    labelNames: ['metric_name']
 });
 
 // Middleware to track HTTP requests
@@ -59,80 +53,21 @@ app.use((req, res, next) => {
 
         httpRequestTotal.labels(method, route, statusCode).inc();
         httpRequestDurationSeconds.labels(method, route, statusCode).observe(responseTimeInSeconds);
-
-        if (statusCode >= 400 && statusCode < 600) {
-            httpRequestErrorsTotal.labels(method, route, statusCode).inc();
-        }
     });
 
     next();
 });
 
-// Instrument MongoDB operations
-const instrumentDBOperation = (operationName, operationFunc) => {
-    return async (...args) => {
-        const end = dbQueryDurationSeconds.startTimer({ operation: operationName });
-        try {
-            const result = await operationFunc(...args);
-            end();
-            return result;
-        } catch (error) {
-            end();
-            throw error;
-        }
-    };
-};
+// Route to receive frontend metrics
+app.post('/metrics/frontend', (req, res) => {
+    const { name, value } = req.body;  // Expecting metric name and value
 
-Todo.find = instrumentDBOperation('find', Todo.find.bind(Todo));
-Todo.create = instrumentDBOperation('create', Todo.create.bind(Todo));
-Todo.findByIdAndUpdate = instrumentDBOperation('findByIdAndUpdate', Todo.findByIdAndUpdate.bind(Todo));
-Todo.findByIdAndDelete = instrumentDBOperation('findByIdAndDelete', Todo.findByIdAndDelete.bind(Todo));
-
-// Connect to your MongoDB database with SSL enabled
-mongoose.connect("mongodb+srv://admin:0754092850@todoapp.aqby3.mongodb.net/TODOAPP?retryWrites=true&w=majority&ssl=true");
-
-// Check for database connection errors
-mongoose.connection.on("error", (error) => {
-    console.error("MongoDB connection error:", error);
-});
-
-// Get saved tasks from the database
-app.get("/getTodoList", (req, res) => {
-    Todo.find({})
-        .then((todoList) => res.json(todoList))
-        .catch((err) => res.json(err));
-});
-
-// Add new task to the database
-app.post("/addTodoList", (req, res) => {
-    Todo.create({
-        task: req.body.task,
-        status: req.body.status,
-        deadline: req.body.deadline,
-    })
-        .then((todo) => res.json(todo))
-        .catch((err) => res.json(err));
-});
-
-// Update task fields (including deadline)
-app.post("/updateTodoList/:id", (req, res) => {
-    const id = req.params.id;
-    const updateData = {
-        task: req.body.task,
-        status: req.body.status,
-        deadline: req.body.deadline,
-    };
-    Todo.findByIdAndUpdate(id, updateData)
-        .then((todo) => res.json(todo))
-        .catch((err) => res.json(err));
-});
-
-// Delete task from the database
-app.delete("/deleteTodoList/:id", (req, res) => {
-    const id = req.params.id;
-    Todo.findByIdAndDelete({ _id: id })
-        .then((todo) => res.json(todo))
-        .catch((err) => res.json(err));
+    if (name && typeof value === 'number') {
+        frontendMetric.set({ metric_name: name }, value);  // Store metric value
+        res.status(200).json({ message: 'Metric recorded successfully' });
+    } else {
+        res.status(400).json({ error: 'Invalid metric data' });
+    }
 });
 
 // Expose the /metrics endpoint
@@ -145,8 +80,15 @@ app.get('/metrics', async (req, res) => {
     }
 });
 
+// Connect to your MongoDB database with SSL enabled
+mongoose.connect("mongodb+srv://admin:0754092850@todoapp.aqby3.mongodb.net/TODOAPP?retryWrites=true&w=majority&ssl=true");
+
+mongoose.connection.on("error", (error) => {
+    console.error("MongoDB connection error:", error);
+});
+
 // Set up the server to listen on the specified port
-const PORT = process.env.PORT || 3001;  // Use PORT from environment variables or default to 3001
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
